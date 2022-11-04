@@ -106,5 +106,5 @@ dist
 .DS_Store
 
 # Hardhat project
-blockchain/artifacts
-blockchain/cache
+/blockchain/artifacts
+/blockchain/cache
