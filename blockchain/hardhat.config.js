@@ -19,16 +19,7 @@ task("addOperator", "Authorize w3bstream node as an operator")
 
 
 module.exports = {
-  solidity: {
-    compilers: [
-      {
-        version: "0.8.0"
-      }, 
-      {
-        version: "0.8.17"
-      }
-    ]
-  },
+  solidity: "0.8.0",
   networks: {
     hardhat: {
       gas: 8500000,
