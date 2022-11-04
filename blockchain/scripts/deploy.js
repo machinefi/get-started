@@ -1,27 +1,28 @@
-
 async function main() {
 
   const [deployer] = await ethers.getSigners();
   console.log("Deploying contracts with the account:", deployer.address);
   console.log("Address balance: %s IOTX", (await deployer.getBalance()).toString());
 
-  const RewardToken = await ethers.getContractFactory("RewardToken");
+  const ClickToken = await ethers.getContractFactory("ClickToken");
 
-  const rewardToken = await RewardToken.deploy();
+  const clickToken = await ClickToken.deploy();
 
-  await rewardToken.deployed();
+  await clickToken.deployed();
 
   console.log("adding owner as operator")
 
-  await rewardToken.addOperator(deployer.address);
+  await clickToken.addOperator(deployer.address);
 
   console.log("deployer address: ", deployer.address)
 
-
   console.log(
-    `Contract deployed to ${rewardToken.address}`
+    `Contract deployed to ${clickToken.address}`
   );
+
 }
+
+
 
 // We recommend this pattern to be able to use async/await everywhere
 // and properly handle errors.
