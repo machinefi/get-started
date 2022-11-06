@@ -12,7 +12,8 @@ func main() {}
 
 // Exported function to serve as a W3bstream handler
 func _start(event_id uint32) int32 {
-	common.Log(fmt.Sprintf("start handler called with event id: %d", event_id))
+	common.Log("Start function called.")
+	common.Log(fmt.Sprintf("event id: %d", event_id))
 	// Get the payload attached to the W3bstream event message
 	payload, err := common.GetDataByRID(event_id)
 	if err != nil {
