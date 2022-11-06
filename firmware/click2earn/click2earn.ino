@@ -16,7 +16,7 @@
 
 using namespace std;
 
-const int32_t EVENT_TYPE = 2147483647;
+const char* EVENT_TYPE = "CLICK";
 
 // The button pin
 #ifdef __SAMD21G18A__
@@ -25,11 +25,10 @@ const int32_t EVENT_TYPE = 2147483647;
     //     #error "HTTP is not supported for Nano 33 IoT"
     // #endif
 #else
-#define BUTTON_PIN 35
+#define BUTTON_PIN 0
 #endif
 
-// const String httpEndpoint = "/srv-applet-mgr/v0/event/" + String(SECRET_PROJECT_NAME);
-const String httpEndpoint = "/anything";
+const String httpEndpoint = "/srv-applet-mgr/v0/event/" + String(SECRET_PROJECT_NAME);
 const String url = "http://" + String(SECRET_WEBSTREAM_HOST) + ":" + String(SECRET_WEBSTREAM_PORT) + httpEndpoint;
 
 WiFiClient wifiClient;
@@ -50,7 +49,7 @@ NTPClient timeClient(ntpUDP);
     {
         "header" : 
         {
-            "event_type" : <number>,
+            "event_type" : <string>,
             "pub_id" : <string>,
             "pub_time" : <number>,
             "token" : <string>
@@ -62,7 +61,7 @@ JSONVar getPayloadJSON()
 {
     // Build the header
     JSONVar header_json;
-    header_json["event_type"] = EVENT_TYPE;
+    header_json["event_type"] = "\" + EVENT_TYPE + \"";
     if (SECRET_PUBLISHER_AUTHENTICATION_ENABLED)
     {
         header_json["pub_id"] = SECRET_PUBLISHER_ID;
@@ -185,7 +184,7 @@ void sendEventMqtt()
 
 bool isPressed()
 {
-    return digitalRead(BUTTON_PIN) == HIGH;
+    return digitalRead(BUTTON_PIN) == LOW;
 }
 
 void setup()
