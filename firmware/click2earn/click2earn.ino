@@ -70,7 +70,6 @@ JSONVar getPayloadJSON()
     }
 
     JSONVar payload_to_wasm_instance;
-    payload_to_wasm_instance["Connections"] = 395;
     payload_to_wasm_instance["Account"] = "610CBDa6f0037B4141A5B949f56479106BeCb1E9";
 
     JSONVar payload_json;
