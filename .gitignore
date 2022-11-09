@@ -108,3 +108,6 @@ dist
 # Hardhat project
 /blockchain/artifacts
 /blockchain/cache
+asserts
+postgres
+mqtt
