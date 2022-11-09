@@ -111,3 +111,5 @@ dist
 asserts
 postgres
 mqtt
+docker-compose.yaml
+solidity-files-cache.json
