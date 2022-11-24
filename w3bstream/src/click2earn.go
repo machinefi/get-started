@@ -11,8 +11,12 @@ import (
 
 func main() {}
 
+// This function will be exposed to the W3bstream events strategy system.
+// The comment below: it is used by Tinygo if you want to expose the function 
+// with a specific name to the W3bstream events strategy system.
+
 //export start
-func handler(event_id uint32) int32 {
+func start(event_id uint32) int32 {
 	// Log the call
 	common.Log(fmt.Sprintf("W3bstream logic called with Event Id: %d", event_id))
 	// Get the event message payload
