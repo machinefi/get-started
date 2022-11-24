@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/tidwall/gjson"
 
@@ -11,36 +12,46 @@ import (
 func main() {}
 
 //export start
-func _start(rid uint32) int32 {
-	common.Log(fmt.Sprintf("start received: %d", rid))
-	message, err := common.GetDataByRID(rid)
+func handler(event_id uint32) int32 {
+	// Log the call
+	common.Log(fmt.Sprintf("W3bstream logic called with Event Id: %d", event_id))
+	// Get the event message payload
+	message, err := common.GetDataByRID(event_id)
 	if err != nil {
 		common.Log("error: " + err.Error())
 		return -1
 	}
+	// Convert the payload to a string
 	res := string(message)
-
-	Account := gjson.Get(res, "Account")
-	common.Log(fmt.Sprintf("Account: %s", Account.String()))
+	// Log the account address to send tokens to
+	Account := gjson.Get(res, "Account").String()
+	common.Log(fmt.Sprintf("Account: %s", Account))
+	// Get and increment the click count
 	count := common.GetDB("clicks") + 1
-
-	common.Log(fmt.Sprintf("number of clicks: %d", count))
-
+	// Log the current number of clicks
+	common.Log(fmt.Sprintf("Number of clicks: %d", count))
+	// Save the new click count
 	common.SetDB("clicks", count)
 
+	// Send 1 token to the "Account" address every 5 clicks
 	if count%5 == 0 {
-		common.Log("sending tx....")
-		common.SendTx(fmt.Sprintf(
+		common.Log(fmt.Sprintf("Minting 1 CLICK token to %s", Account))
+		common.Log("Sending blockchain tx....")
+		result := common.SendTx(fmt.Sprintf(
 			`{
 				"to": "%s",
 				"value": "0",
 				"data": "40c10f19000000000000000000000000%s0000000000000000000000000000000000000000000000000de0b6b3a7640000"
 			}`,
-			"0x3Fb8306Ca5C7d5A752b195F1df2f03CCE6BC1Bcb", //W3BERC20 contract address
-			Account.String(), //send to account
+			//ERC20 "CLICK" tiken contract address
+			"0x9AdB43E4Ba7ef5983741C1623e64993848b2Efc5",
+			strings.Replace(Account, "0x", "", 1),
 		))
-		common.Log("tx sent successfully")
+		if result == 0 {
+			common.Log("tx sent successfully")
+		} else {
+			common.Log("tx failed")
+		}
 	}
-
 	return 0
 }
