@@ -61,7 +61,7 @@ JSONVar getPayloadJSON()
 {
     // Build the header
     JSONVar header_json;
-    header_json["event_type"] = "\" + EVENT_TYPE + \"";
+    header_json["event_type"] = EVENT_TYPE;
     if (SECRET_PUBLISHER_AUTHENTICATION_ENABLED)
     {
         header_json["pub_id"] = SECRET_PUBLISHER_ID;
@@ -70,7 +70,7 @@ JSONVar getPayloadJSON()
     }
 
     JSONVar payload_to_wasm_instance;
-    payload_to_wasm_instance["Account"] = "610CBDa6f0037B4141A5B949f56479106BeCb1E9";
+    payload_to_wasm_instance["Account"] = "169dc1Cfc4Fd15ed5276B12D6c10CE65fBef0D11";
 
     JSONVar payload_json;
     payload_json["payload"] = JSON.stringify(payload_to_wasm_instance);
@@ -193,7 +193,6 @@ void setup()
     #if defined(__SAMD21G18A__)
     delay(5000);    // Delay for 5000 seconds to allow a serial connection to be established
     #endif
-
     initWiFi();
 
     if(SECRET_MQTT_ENABLED) connectToMqttBroker();
